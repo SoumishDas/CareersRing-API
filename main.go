@@ -10,9 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var Router *gin.Engine
+var (Router *gin.Engine)
 
 func main() {
+	//runtime.GOMAXPROCS(2)
 	db.ConnectDB()
 	Router = router.GetRouter()
 	models.MigrateDB(&db.DB)

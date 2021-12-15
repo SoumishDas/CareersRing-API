@@ -13,7 +13,7 @@ import (
 var (Router *gin.Engine)
 
 func main() {
-	//runtime.GOMAXPROCS(2)
+	runtime.GOMAXPROCS(2)
 	db.ConnectDB()
 	Router = router.GetRouter()
 	models.MigrateDB(&db.DB)

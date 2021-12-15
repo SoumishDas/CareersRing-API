@@ -15,6 +15,7 @@ var (Router *gin.Engine)
 
 func main() {
 	runtime.GOMAXPROCS(2)
+	//test
 	db.ConnectDB()
 	Router = router.GetRouter()
 	models.MigrateDB(&db.DB)

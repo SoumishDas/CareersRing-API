@@ -4,6 +4,7 @@ import (
 	"go-gin-api/db"
 	router "go-gin-api/router"
 	"log"
+	"runtime"
 
 	"go-gin-api/models"
 
@@ -13,7 +14,7 @@ import (
 var (Router *gin.Engine)
 
 func main() {
-	//runtime.GOMAXPROCS(2)
+	runtime.GOMAXPROCS(2)
 	db.ConnectDB()
 	Router = router.GetRouter()
 	models.MigrateDB(&db.DB)

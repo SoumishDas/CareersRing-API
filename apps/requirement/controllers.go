@@ -34,7 +34,7 @@ func CreateRequirement(c *gin.Context) {
 
 	requirement := models.Requirement{
 		
-		
+	
 	}
 
 	c.JSON(http.StatusOK,pI)

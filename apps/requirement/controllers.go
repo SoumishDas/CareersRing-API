@@ -11,6 +11,7 @@ import (
 
 type createRequirementRequest struct {
 	BusinessKey string `json:"businessKey"`
+
 }
 
 func CreateRequirement(c *gin.Context) {
@@ -30,6 +31,11 @@ func CreateRequirement(c *gin.Context) {
 	}
 	pI := models.ProcessInstance{BusinessKey: data.BusinessKey,ProcessID: data.ID,ProcessType: "test",Owner:"soumish",OwnerType: "User"}
 	pI = bpm.InsertProcessInstance(pI)
+
+	requirement := models.Requirement{
+		
+		
+	}
 
 	c.JSON(http.StatusOK,pI)
 }

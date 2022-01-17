@@ -21,11 +21,7 @@ func main() {
 	
 	models.MigrateDB(&db.DB)
 	
-	Router.GET("/test", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-		"message": 2,
-		})
-	})
+	
 
 	log.Fatal(Router.Run(":5000"))
 }

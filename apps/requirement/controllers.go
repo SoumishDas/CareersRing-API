@@ -36,6 +36,7 @@ func CreateRequirement(c *gin.Context) {
 		
 	
 	}
+	
 
 	c.JSON(http.StatusOK,pI)
 }

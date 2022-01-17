@@ -1,10 +1,13 @@
 package routes
 
 import (
+	"go-gin-api/apps/applicant"
 	"go-gin-api/apps/authentication"
 	"go-gin-api/apps/hcm"
-	"go-gin-api/utils/bpm"
+	"go-gin-api/apps/requirement"
+	"go-gin-api/middleware"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,6 +20,20 @@ func sleep (c *gin.Context) {
 func GetRouter() *gin.Engine {
 	
 	Router := gin.Default()
+	corsConfig := cors.DefaultConfig()
+
+	corsConfig.AllowOrigins = []string{"http://localhost:3000"}
+	// To be able to send tokens to the server.
+	corsConfig.AllowCredentials = true
+
+	// OPTIONS method for ReactJS
+	corsConfig.AddAllowMethods("OPTIONS")
+
+	// Register the middleware
+	Router.Use(cors.New(corsConfig))
+	// Use Error Handler
+	Router.Use(middleware.JSONAppErrorReporter())
+
 	//Router.Use(gindump.Dump())
 	Router.POST("/login",authentication.MainLoginHandler)
 	Router.POST("/refresh",authentication.MainRefreshHandler)
@@ -25,20 +42,17 @@ func GetRouter() *gin.Engine {
 	//api.Use(middleware.AuthorizeJWT())
 	api.GET("/Item", hcm.GetItems)
 	api.GET("/sleep",sleep)
-	api.GET("/start",func(c *gin.Context){
-		err := bpm.CreateProcessInstance("test")
-		print(err)
-		if !err{
-			println("Success")
-			c.JSON(200,gin.H{"success":"true"})
-		}
-	})
+	
 	api.POST("/Item", hcm.CreateItem)
 	api.DELETE("/Item", hcm.DeleteItem)
 
 	// User methods
 	
 	api.POST("/user",authentication.CreateUserController)
+
+	api.POST("/applicant/attach",applicant.AttachApplicants)
+
+	api.POST("/requirement/create",requirement.CreateRequirement)
 
 
 	return Router

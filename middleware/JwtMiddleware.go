@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"fmt"
-	"go-gin-api/authentication"
+	"go-gin-api/apps/authentication"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"

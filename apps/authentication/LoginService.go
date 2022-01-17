@@ -1,11 +1,7 @@
 package authentication
 
 import (
-	"errors"
-	"go-gin-api/db"
-	"go-gin-api/models"
-
-	"github.com/jinzhu/gorm"
+	"go-gin-api/utils/bpm"
 )
 
 
@@ -13,7 +9,8 @@ type LoginService interface {
 	LoginUser(email string, password string) (bool,uint64)
 }
 type loginInformation struct {
-
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 func NewLoginService() LoginService{
@@ -21,13 +18,17 @@ func NewLoginService() LoginService{
 }
 
 func (info *loginInformation) LoginUser(email string, password string) (bool,uint64) {
-	user := models.User{Email:email,Password:password}
-	if result := db.DB.Where(&user).First(&models.User{}); result.Error != nil {
-		// error handling...
-		if errors.Is(result.Error, gorm.ErrRecordNotFound){
-			return false,999
-		}
-		return false,9999
-	  }
-	return true,user.ID
+	
+	user,err := bpm.VerifyUser(loginInformation{Username: email,Password:password })
+
+	if err!=nil{
+		panic(err)
+	}
+	if user.Authenticated{
+		return true,1
+	}else{
+		return false,0
+	}
+
+	
 }

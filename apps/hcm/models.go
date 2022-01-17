@@ -7,11 +7,6 @@ import (
 
 
 
-
-
-
-
-
 func Create(item models.Item) models.Item {
 	db.DB.Create(&item)
 	return item
@@ -33,3 +28,4 @@ func FindAll() []models.Item {
 	db.DB.Find(&items)
 	return items
 }
+

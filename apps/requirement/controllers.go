@@ -33,8 +33,7 @@ func CreateRequirement(c *gin.Context) {
 	pI = bpm.InsertProcessInstance(pI)
 
 	requirement := models.Requirement{
-		
-	
+			
 	}
 	
 

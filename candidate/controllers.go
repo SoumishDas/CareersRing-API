@@ -2,7 +2,9 @@ package candidate
 
 import (
 	"go-gin-api/models"
+	"io"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -241,6 +243,25 @@ func (controller *CandidateController) CreateCandidate(c *gin.Context) {
 
 	CreateCandidate(candidate)
 	c.JSON(http.StatusCreated, candidate)
+}
+
+// ReadLogFile returns the contents of the log file
+func (controller *CandidateController) ReadLogFile(c *gin.Context) {
+	file, err := os.Open("/home/ubuntu/application.log")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	defer file.Close()
+
+	var logText []byte
+	logText, err = io.ReadAll(file)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.String(http.StatusOK, string(logText))
 }
 
 // FindAllCandidates returns all candidates

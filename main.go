@@ -4,6 +4,7 @@ import (
 	"go-gin-api/db"
 	router "go-gin-api/router"
 	"log"
+	"os"
 	"runtime"
 
 	"go-gin-api/models"
@@ -11,20 +12,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (Router *gin.Engine)
+var (
+	Router *gin.Engine
+)
 
 func main() {
 	runtime.GOMAXPROCS(2)
+	if os.Getenv("ENV") == "Production" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	//test
-	db.ConnectDB()
+	db.ConnectDB("postgres")
 	Router = router.GetRouter()
 	models.MigrateDB(&db.DB)
-	
-	Router.GET("/test", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-		"message": 2,
-		})
-	})
 
 	log.Fatal(Router.Run(":5000"))
+
 }

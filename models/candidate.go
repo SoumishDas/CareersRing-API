@@ -1,14 +1,92 @@
 package models
 
-import "time"
+import "github.com/jinzhu/gorm"
 
+type ProfessionalExperience struct {
+	gorm.Model
+	StartDate            *string
+	CurrentlyWorkingHere *bool
+	CurrentSalary        *int
+	NoticePeriod         *string
+	EmploymentType       *string
+	JobResponsibilities  *string
+	KeyAchievements      *string
+	CandidateID          uint64 `gorm:"not null"`
+}
+
+type PreviousJob struct {
+	gorm.Model
+	Title            *string
+	Company          *string
+	StartDate        *string
+	EndDate          *string
+	ReasonForLeaving *string
+	CandidateID      uint64 `gorm:"not null"`
+}
+
+type Skill struct {
+	gorm.Model
+	Skill string `gorm:"not null"`
+}
+
+type Language struct {
+	gorm.Model
+	Language         string `gorm:"not null"`
+	ProficiencyLevel *string
+}
+
+type Certification struct {
+	gorm.Model
+	Name                string `gorm:"not null"`
+	IssuingOrganization *string
+	DateOfIssuance      *string
+	ExpirationDate      *string
+}
+
+type AdditionalDetails struct {
+	gorm.Model
+	LinkedInProfileURL          *string
+	PersonalWebsitePortfolioURL *string
+	ProfessionalSummary         *string
+}
+
+type AwardAchievement struct {
+	gorm.Model
+	Name        string `gorm:"not null"`
+	Date        *string
+	Description *string
+}
 type Candidate struct {
-	ID        uint64    `gorm:"primary_key;auto_increment;not_null"`
-	CreatedAt time.Time `gorm:"autoCreateTime"`
-	UpdatedAt time.Time `gorm:"autoUpdateTime"`
-	Name      string    `json:"name" gorm:"not null"`
-	User      User      `json:"user" gorm:"not null"`
-	UserID    uint64
-	pAddress  Address	`gorm:"polymorphic:Owner"`
-	cAddress  Address	`gorm:"polymorphic:Owner"`
+	gorm.Model
+	FullName                    string  `gorm:"not null"`
+	MobileNumber                *string `gorm:"unique"`
+	Email                       *string `gorm:"unique"`
+	Gender                      *string
+	DateOfBirth                 *string
+	Nationality                 *string
+	MaritalStatus               *string
+	CurrentLocation             *string
+	PermanentAddress            *string
+	ProfessionalExperience      ProfessionalExperience `gorm:"ForeignKey:CandidateID"`
+	PreviousJobs                []PreviousJob          `gorm:"ForeignKey:CandidateID"`
+	Skills                      []Skill                `gorm:"many2many:candidate_skills;"`
+	Languages                   []Language             `gorm:"many2many:candidate_languages;"`
+	Certifications              []Certification        `gorm:"many2many:candidate_certifications;"`
+	Degree                      *string
+	FieldOfStudy                *string
+	InstitutionName             *string
+	UniversityBoardName         *string
+	StartDate                   *string
+	EndDate                     *string
+	GPAPercentage               *string
+	PreferredJobTitle           *string
+	PreferredLocation           *string
+	ExpectedSalary              *int
+	Availability                *string
+	WillingnessToRelocate       *string
+	LinkedInProfileURL          *string
+	PersonalWebsitePortfolioURL *string
+	ProfessionalSummary         *string
+	AdditionalInformation       *string
+	AwardAchievements           []AwardAchievement `gorm:"many2many:candidate_award_achievements;"`
 }

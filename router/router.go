@@ -3,7 +3,7 @@ package routes
 import (
 	"go-gin-api/authentication"
 	"go-gin-api/hcm"
-
+	"go-gin-api/candidate"
 	"github.com/gin-gonic/gin"
 	gindump "github.com/tpkeeper/gin-dump"
 )
@@ -29,7 +29,14 @@ func GetRouter() *gin.Engine {
 	api.POST("/Item", hcm.CreateItem)
 	api.DELETE("/Item", hcm.DeleteItem)
 
-	// User methods
+	// Candidate methods
+// Candidate methods
+candidateCtrl := candidate.NewCandidateController()
+api.POST("/candidate", candidateCtrl.CreateCandidate)
+api.GET("/candidates", candidateCtrl.FindAllCandidates)
+api.GET("/candidate/:id", candidateCtrl.FindCandidateByID)
+// api.PUT("/candidate/:id", candidateCtrl.UpdateCandidate)
+api.DELETE("/candidate/:id", candidateCtrl.DeleteCandidate)
 	
 	api.POST("/user",authentication.CreateUserController)
 

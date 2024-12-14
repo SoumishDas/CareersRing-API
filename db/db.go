@@ -1,35 +1,45 @@
 package db
 
 import (
-	"fmt"
-	"net/url"
+	"log"
+	"os"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	_ "github.com/lib/pq" // Postgres driver
 )
 
 var DB gorm.DB
 
 // Connecting to db
-func ConnectDB() {
-	dsn := url.URL{
-	User: url.UserPassword("fastapi_user", "apppassword"),
-	Host:     fmt.Sprintf("%s:%d","18.140.204.101" , 5432),
-	Path:     "fastapi",
-	Scheme:   "postgres",
-	RawQuery: (&url.Values{"sslmode": []string{"disable"}}).Encode(),
+func ConnectDB(dbType string) {
+	//var err error
+	if dbType == "postgres" {
+		// db, err := gorm.Open("postgres", "user=postgres dbname=test sslmode=disable password=123456")
+		dbName := "Test"
+		if os.Getenv("ENV") == "Production" {
+			dbName = "Dev"
+		}
+		db, err := gorm.Open("postgres", "user=postgres host=43.205.211.80 dbname="+dbName+" sslmode=disable password=chikoo123")
+		if err != nil {
+			log.Fatal("Error Connecting to db")
+		}
+		DB = *db
+	} else if dbType == "sqlite3" {
+		db, err := gorm.Open("sqlite3", "./test.db")
+		if err != nil {
+			log.Fatal("Error Connecting to db")
+		}
+		DB = *db
+	} else {
+		log.Fatal("Invalid db type")
 	}
-	db, err := gorm.Open("postgres", dsn.String())
-	if err!= nil{
-		println("Error Connecting to db")
-	}
-	DB = *db
-	
+
 }
 
-func CloseDB(){
+func CloseDB() {
 	err := DB.Close()
-	if err!= nil{
+	if err != nil {
 		println("Failed to Close DB")
 	}
 }

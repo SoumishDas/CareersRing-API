@@ -58,9 +58,12 @@ type AwardAchievement struct {
 }
 type Candidate struct {
 	gorm.Model
-	FullName                    string  `gorm:"not null"`
-	MobileNumber                *string `gorm:"unique"`
-	Email                       *string `gorm:"unique"`
+	EmailUID                    string
+	EmailMessageID              string
+	AttachmentFilename          string
+	FullName                    string `gorm:"not null"`
+	MobileNumber                *string
+	Email                       *string
 	Gender                      *string
 	DateOfBirth                 *string
 	Nationality                 *string
@@ -89,4 +92,9 @@ type Candidate struct {
 	ProfessionalSummary         *string
 	AdditionalInformation       *string
 	AwardAchievements           []AwardAchievement `gorm:"many2many:candidate_award_achievements;"`
+}
+
+type EmailUID struct {
+	gorm.Model
+	UID string `gorm:"not null;unique"`
 }

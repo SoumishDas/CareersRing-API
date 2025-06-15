@@ -295,3 +295,40 @@ func convertMasterCandidateToFormData(mc models.MasterCandidate) map[string]inte
 		// etc. for all fields your form expects
 	}
 }
+
+// --- Dictionary Helpers ---
+
+// GetAllMasterSkills returns all skills from the dictionary table
+func GetAllMasterSkills() []models.MasterSkill {
+	var skills []models.MasterSkill
+	db.DB.Find(&skills)
+	return skills
+}
+
+// GetAllMasterLanguages returns all languages
+func GetAllMasterLanguages() []models.MasterLanguage {
+	var languages []models.MasterLanguage
+	db.DB.Find(&languages)
+	return languages
+}
+
+// GetAllMasterJobTitles returns all job titles
+func GetAllMasterJobTitles() []models.MasterJobTitle {
+	var titles []models.MasterJobTitle
+	db.DB.Find(&titles)
+	return titles
+}
+
+// GetAllMasterLocations returns all preferred locations
+func GetAllMasterLocations() []models.MasterLocation {
+	var locations []models.MasterLocation
+	db.DB.Find(&locations)
+	return locations
+}
+
+// GetAllMasterIndustries returns all industries
+func GetAllMasterIndustries() []models.MasterIndustry {
+	var industries []models.MasterIndustry
+	db.DB.Find(&industries)
+	return industries
+}

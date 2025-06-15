@@ -25,8 +25,18 @@ func GetRouter() *gin.Engine {
 	// CORS configuration
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
-	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
-	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	config.AllowMethods = []string{
+		"GET",
+		"POST",
+		"PUT",
+		"DELETE",
+		"OPTIONS",
+	}
+	config.AllowHeaders = []string{
+		"Origin",
+		"Content-Type",
+		"Authorization",
+	}
 	// Apply the CORS middleware
 	Router.Use(cors.New(config))
 
@@ -60,11 +70,17 @@ func GetRouter() *gin.Engine {
 	masterDataCtrl := masterData.NewMasterDataController()
 	api.POST("/masterData/candidates", masterDataCtrl.CreateMasterCandidate)
 	api.GET("/masterData/candidates", masterDataCtrl.FindAllMasterCandidates)
+	api.GET("/masterData/candidates/numPages", masterDataCtrl.GetNumberOfPages)
 	api.GET("/masterData/candidates/:id", masterDataCtrl.FindMasterCandidateByID)
 	api.PUT("/masterData/candidates/:id", masterDataCtrl.UpdateMasterCandidate)
 	api.DELETE("/masterData/candidates/:id", masterDataCtrl.DeleteMasterCandidate)
 	api.GET("/masterData/bridge/:candidateID", masterDataCtrl.BridgeOldCandidate)
 
-	//api.GET("/masterData/locations", masterDataCtrl.GetAllMasterLocations)
+	api.GET("/masterData/skills", masterDataCtrl.GetAllSkills)
+	api.GET("/masterData/languages", masterDataCtrl.GetAllLanguages)
+	api.GET("/masterData/jobTitles", masterDataCtrl.GetAllJobTitles)
+	api.GET("/masterData/locations", masterDataCtrl.GetAllLocations)
+	api.GET("/masterData/industries", masterDataCtrl.GetAllIndustries)
+
 	return Router
 }

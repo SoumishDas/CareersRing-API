@@ -124,3 +124,35 @@ func (ctrl *MasterDataController) BridgeOldCandidate(c *gin.Context) {
 	// 4. Return JSON
 	c.JSON(http.StatusOK, formData)
 }
+
+// --- Dictionary Endpoints ---
+
+// GetAllSkills handles GET /masterData/skills
+func (ctrl *MasterDataController) GetAllSkills(c *gin.Context) {
+	skills := GetAllMasterSkills()
+	c.JSON(http.StatusOK, skills)
+}
+
+// GetAllLanguages handles GET /masterData/languages
+func (ctrl *MasterDataController) GetAllLanguages(c *gin.Context) {
+	languages := GetAllMasterLanguages()
+	c.JSON(http.StatusOK, languages)
+}
+
+// GetAllJobTitles handles GET /masterData/jobTitles
+func (ctrl *MasterDataController) GetAllJobTitles(c *gin.Context) {
+	titles := GetAllMasterJobTitles()
+	c.JSON(http.StatusOK, titles)
+}
+
+// GetAllLocations handles GET /masterData/locations
+func (ctrl *MasterDataController) GetAllLocations(c *gin.Context) {
+	locations := GetAllMasterLocations()
+	c.JSON(http.StatusOK, locations)
+}
+
+// GetAllIndustries handles GET /masterData/industries
+func (ctrl *MasterDataController) GetAllIndustries(c *gin.Context) {
+	industries := GetAllMasterIndustries()
+	c.JSON(http.StatusOK, industries)
+}
